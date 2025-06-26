@@ -18,18 +18,44 @@ const PDFGenerator = ({ targetId = 'cv-content', filename = 'Abraham_Almazan_CV_
       button.textContent = 'Generating PDF...';
       button.disabled = true;
 
-      // Create canvas from HTML
+      // Create canvas from HTML with optimized settings
       const canvas = await html2canvas(element, {
-        scale: 2,
+        scale: 1.5, // Reduced from 2 to 1.5 for smaller file size
         useCORS: true,
         allowTaint: true,
         backgroundColor: '#ffffff',
         width: element.scrollWidth,
-        height: element.scrollHeight
+        height: element.scrollHeight,
+        letterRendering: true, // Better text rendering
+        logging: false // Disable console logs
       });
 
-      // Calculate PDF dimensions
-      const imgData = canvas.toDataURL('image/png');
+      // Progressive compression to ensure file size under 5MB
+      let imgData;
+      let quality = 0.85; // Start with 85% quality
+      const maxSizeMB = 5;
+      
+      do {
+        imgData = canvas.toDataURL('image/jpeg', quality);
+        
+        // Estimate file size (base64 to bytes approximation)
+        const estimatedSizeBytes = (imgData.length * 3) / 4;
+        const estimatedSizeMB = estimatedSizeBytes / (1024 * 1024);
+        
+        console.log(`PDF Quality: ${Math.round(quality * 100)}%, Estimated size: ${estimatedSizeMB.toFixed(2)}MB`);
+        
+        if (estimatedSizeMB <= maxSizeMB) {
+          break;
+        }
+        
+        quality -= 0.1; // Reduce quality by 10%
+        
+        if (quality < 0.3) {
+          console.warn('Minimum quality reached, proceeding with current compression');
+          break;
+        }
+      } while (true);
+      
       const pdf = new jsPDF('portrait', 'mm', 'a4');
       
       const pdfWidth = pdf.internal.pageSize.getWidth();
@@ -46,7 +72,7 @@ const PDFGenerator = ({ targetId = 'cv-content', filename = 'Abraham_Almazan_CV_
       const x = (pdfWidth - finalWidth) / 2;
       const y = 10; // Small top margin
 
-      pdf.addImage(imgData, 'PNG', x, y, finalWidth, finalHeight);
+      pdf.addImage(imgData, 'JPEG', x, y, finalWidth, finalHeight);
       
       // Save the PDF
       pdf.save(`${filename}.pdf`);
