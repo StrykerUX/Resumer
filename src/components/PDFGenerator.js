@@ -20,19 +20,19 @@ const PDFGenerator = ({ targetId = 'cv-content', filename = 'Abraham_Almazan_CV_
 
       // Create canvas from HTML with optimized settings
       const canvas = await html2canvas(element, {
-        scale: 1.5, // Reduced from 2 to 1.5 for smaller file size
+        scale: 1.5,
         useCORS: true,
         allowTaint: true,
         backgroundColor: '#ffffff',
         width: element.scrollWidth,
         height: element.scrollHeight,
-        letterRendering: true, // Better text rendering
-        logging: false // Disable console logs
+        letterRendering: true,
+        logging: false
       });
 
       // Progressive compression to ensure file size under 5MB
       let imgData;
-      let quality = 0.85; // Start with 85% quality
+      let quality = 0.85;
       const maxSizeMB = 5;
       
       do {
@@ -48,7 +48,7 @@ const PDFGenerator = ({ targetId = 'cv-content', filename = 'Abraham_Almazan_CV_
           break;
         }
         
-        quality -= 0.1; // Reduce quality by 10%
+        quality -= 0.1;
         
         if (quality < 0.3) {
           console.warn('Minimum quality reached, proceeding with current compression');
@@ -56,23 +56,19 @@ const PDFGenerator = ({ targetId = 'cv-content', filename = 'Abraham_Almazan_CV_
         }
       } while (true);
       
-      const pdf = new jsPDF('portrait', 'mm', 'a4');
-      
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
+      // Create PDF with dynamic height to fit all content
       const imgWidth = canvas.width;
       const imgHeight = canvas.height;
       
-      // Calculate scaling to fit content on page
-      const ratio = Math.min(pdfWidth / (imgWidth * 0.264583), pdfHeight / (imgHeight * 0.264583));
-      const finalWidth = imgWidth * 0.264583 * ratio;
-      const finalHeight = imgHeight * 0.264583 * ratio;
+      // Convert pixels to mm
+      const pdfWidth = imgWidth * 0.264583;
+      const pdfHeight = imgHeight * 0.264583;
       
-      // Center the content
-      const x = (pdfWidth - finalWidth) / 2;
-      const y = 10; // Small top margin
-
-      pdf.addImage(imgData, 'JPEG', x, y, finalWidth, finalHeight);
+      // Create PDF with custom dimensions to fit content
+      const pdf = new jsPDF('portrait', 'mm', [pdfWidth, pdfHeight]);
+      
+      // Add image to fill entire PDF
+      pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
       
       // Save the PDF
       pdf.save(`${filename}.pdf`);
