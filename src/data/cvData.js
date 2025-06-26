@@ -8,34 +8,57 @@ export const cvData = {
   },
   
   professionalSummary: {
-    text: "UX/UI and Web Designer with 6+ years of experience specializing in WordPress, Elementor Pro, and custom web development. Expert in creating high-converting, responsive websites for service-based businesses, eCommerce, and SaaS platforms. Proven track record in translating design mockups into functional web experiences using HTML, CSS, JavaScript, and PHP. Experienced in project management tools (ClickUp, Monday), client communication, and leading design teams with a results-driven approach that has improved conversion rates by up to 60% and reduced user acquisition costs by 56%."
+    text: "Web Designer and UX/UI specialist with 6+ years of experience building digital products that bridge the gap between beautiful design and business results. Expert in WordPress and Elementor Pro development, I've led complete redesigns that increased conversion rates by 60%, built scalable marketing sites across multiple markets, and developed custom widgets and plugins that push platforms beyond their default capabilities. Whether it's rapid deployment or complex custom development, I deliver solutions that perform both technically and commercially."
   },
   
   coreSkills: {
     technical: [
-      "WordPress Development (6+ years)",
-      "Elementor Pro (Expert level)",
+      "WordPress Development (7+ years)",
+      "Elementor Pro (7+ years, Advanced Custom Widgets & Templates)",
       "HTML5, CSS3, JavaScript, PHP",
+      "React & Next.js Development",
+      "AI API Integration (OpenAI, Claude, Gemini)",
       "Responsive Web Design & Mobile Optimization",
-      "UX/UI Design & Usability Testing",
       "SEO Optimization & Performance Tuning",
-      "WooCommerce & Shopify Development",
-      "GSAP Animations & Interactive Elements"
+      "Custom Plugin Development & Code Snippets",
+      "GSAP Animations & Microinteractions",
+      "Ajax & Dynamic Content Loading",
+      "WooCommerce & E-commerce Development",
+      "VPS Deployment & Server Management"
     ],
     tools: [
-      "ClickUp & Monday (Project Management)",
       "Figma, Adobe XD, Photoshop, Illustrator",
+      "After Effects, Framer, InVision",
+      "Miro, FigJam (User Flow Documentation)",
+      "WordPress, Elementor Pro, Oxygen Builder",
+      "React, Next.js, Vercel",
+      "Webflow, Squarespace, Shopify",
+      "OpenAI API (GPT-4, DALL-E)",
+      "Anthropic Claude API, Google Gemini API",
+      "Midjourney (AI Image Generation)",
+      "Cursor (AI-Powered Development)",
+      "n8n (Workflow Automation)",
+      "Supabase (Backend as a Service)",
+      "Coolify, Dokploy (VPS Deployment)",
+      "ClickUp & Monday",
       "Google Analytics, Hotjar, Clarity",
-      "Oxygen Builder, WooCommerce Plugins",
-      "Bootstrap, Tailwind CSS, jQuery",
-      "Webflow, Squarespace",
-      "Git Version Control"
+      "Typeform & Lead Generation Forms",
+      "Lottie Animations & Interactive Elements",
+      "3D Visualization (Blender, Product Renders)",
+      "Video Editing & Promotional Content",
+      "Git Version Control, Bootstrap, Tailwind CSS"
     ],
-    soft: [
-      "International Client Communication",
-      "Team Leadership & Mentorship",
+    competencies: [
+      "Lead Generation & Conversion Optimization",
+      "CRO & A/B Testing Implementation",
+      "AI-Enhanced Development Workflows",
+      "Modern JavaScript Frameworks",
       "Design Thinking & User-Centered Approach",
-      "Cross-functional Collaboration",
+      "Branding & Visual Identity Development",
+      "Rapid Prototyping & Agile Development",
+      "Self-Hosted Solutions & VPS Management",
+      "Cross-Cultural Client Communication",
+      "Team Leadership & Mentorship",
       "Process & Workflow Optimization",
       "Quality Assurance & Attention to Detail"
     ]
@@ -52,8 +75,8 @@ export const cvData = {
         "Optimized onboarding process, increasing completion rates from 10% to 60%",
         "Reduced average onboarding time from 9 minutes to 4 minutes through UI improvements",
         "Redesigned subscription flows, reducing churn from 80% to 40%",
-        "Developed SEO-driven marketing site with localized landing pages across U.S. cities",
-        "Achieved 56% reduction in user acquisition cost through strategic design improvements",
+        "Developed SEO-driven marketing site using WordPress + Elementor Pro with localized landing pages across U.S. cities",
+        "Achieved 56% reduction in user acquisition cost through strategic CRO design improvements",
         "Built UI components and frontend features using HTML, CSS, JavaScript, and PHP"
       ]
     },
@@ -64,11 +87,11 @@ export const cvData = {
       location: "Remote",
       achievements: [
         "Led optimization of web development workflows from client meetings to delivery",
-        "Implemented QA processes for designs and websites, reducing delivery times",
-        "Trained entire agency on ClickUp, improving project tracking and team coordination",
-        "Transitioned agency from Photoshop to Figma, enhancing collaboration processes",
-        "Conducted WordPress development training, optimizing build processes and execution speed",
-        "Standardized design workflows, improving feedback cycles and implementation efficiency"
+        "Implemented QA processes for WordPress + Elementor Pro projects, reducing delivery times and improving efficiency",
+        "Trained entire agency on ClickUp for managing multiple client projects and tight deadlines",
+        "Transitioned agency from Photoshop to Figma, enhancing design-to-Elementor workflows",
+        "Conducted specialized WordPress + Elementor Pro training, optimizing build processes and execution speed",
+        "Standardized design workflows across project types, improving feedback cycles and implementation efficiency"
       ]
     },
     {
@@ -77,12 +100,13 @@ export const cvData = {
       period: "Jan 2023 - Dec 2023",
       location: "Remote",
       achievements: [
-        "Specialized in QA for web designs and custom integrations within no-code website builder",
-        "Developed custom widgets using HTML, CSS, JavaScript, and GSAP animations",
-        "Improved landing page conversion rates by at least 30% per project",
-        "Created branding assets and marketing visuals, including HTML-based promotional emails",
-        "Reduced QA rounds from 3.5 to 1.5 average per project through refined processes",
-        "Recognized for custom coding expertise delivering standout solutions"
+        "Specialized in QA for web designs and custom integrations within Wishpond's no-code website builder platform",
+        "Developed custom widgets using HTML, CSS, JavaScript, and GSAP animations to expand design capabilities beyond default limitations",
+        "Improved landing page conversion rates by at least 30% per project through strategic UX/UI optimization",
+        "Created branding assets and marketing visuals, including HTML-based promotional emails for various platforms",
+        "Worked on WordPress sites, Shopify stores, and Wishpond builder projects to ensure cross-platform compatibility",
+        "Reduced QA rounds from 3.5 to 1.5 average per project through refined processes and quality checklists",
+        "Recognized for custom coding expertise in delivering standout solutions that enhanced the platform's capabilities"
       ]
     },
     {
@@ -91,10 +115,11 @@ export const cvData = {
       period: "Mar 2022 - Jan 2023",
       location: "Remote",
       achievements: [
-        "Led team of 3 designers, establishing structured workflows and QA processes",
+        "Led team of 3 designers, establishing structured workflows for WordPress + Elementor Pro projects",
         "Transitioned agency from template-based to fully customized website solutions",
-        "Developed custom websites using HTML, CSS, JavaScript, and PHP beyond platform restrictions",
-        "Standardized workflows for different project types and budgets, optimizing resources",
+        "Developed custom WordPress sites with specialized Elementor Pro templates and advanced functionality",
+        "Created diverse portfolio of high-quality websites with consistent delivery timelines and scalable workflows",
+        "Standardized Elementor Pro workflows for different project types and budgets to optimize resources",
         "Managed project execution and team collaboration using Monday and Google Drive"
       ]
     },
@@ -104,12 +129,12 @@ export const cvData = {
       period: "May 2020 - Mar 2022",
       location: "Remote",
       achievements: [
-        "Designed and developed custom WordPress, Webflow, and Shopify websites",
-        "Built responsive UI solutions with HTML, CSS, JavaScript, PHP, and GSAP",
-        "Created 3D product renders and promotional videos for enhanced engagement",
-        "Contributed to AR project with interactive elements and multimedia content",
-        "Implemented QA processes and workflow optimization for improved efficiency",
-        "Worked with diverse industries including eCommerce, startups, and SaaS platforms"
+        "Designed and developed custom WordPress + Elementor Pro websites with rapid delivery timelines",
+        "Built responsive, high-performance websites with custom CSS, JavaScript, PHP, and GSAP animations",
+        "Created custom Elementor Pro templates and plugins for specialized business needs",
+        "Developed microinteractions and specialized functionality through custom code snippets",
+        "Implemented fast-turnaround QA processes for rapid website delivery and client satisfaction",
+        "Worked with diverse industries and complex business requirements"
       ]
     }
   ],
@@ -137,30 +162,30 @@ export const cvData = {
   
   projects: [
     {
-      name: "Trove Credit Web App Redesign",
-      description: "Complete UX/UI redesign of credit building SaaS platform, increasing onboarding completion from 10% to 60% and reducing churn from 80% to 40%",
-      technologies: ["HTML", "CSS", "JavaScript", "PHP", "UX/UI Design", "Conversion Optimization"]
+      name: "Professional Portfolio Website",
+      description: "Designed and developed personal portfolio website using WordPress + Elementor Pro to showcase web design capabilities and demonstrate technical expertise. Implemented conversion-focused design principles with strategic call-to-actions, optimized loading speeds, and mobile-responsive layouts. Features custom CSS animations, performance optimization techniques, and intuitive project showcase sections that effectively demonstrate design process, technical skills, and versatility across different project types and industries.",
+      technologies: ["WordPress", "Elementor Pro", "Custom CSS", "Performance Optimization", "CRO"]
+    },
+    {
+      name: "Furwagen E-commerce Platform",
+      description: "Developed comprehensive full-stack e-commerce solution for automotive parts manufacturer and distributor serving Mexico and Latin America, managing 60,000+ SKUs with complex inventory requirements. Built custom WordPress architecture with secure VPS deployment, external admin panel for real-time inventory management, and integrated analytics dashboard. The platform handles high-volume B2B and B2C transactions, automated inventory updates, and multi-channel sales integration. Additionally functions as an online catalog for sales representatives and redistributors, resulting in 35% improved operational efficiency and streamlined distribution workflows across regional markets.",
+      technologies: ["WordPress", "PHP", "MySQL", "Custom Development", "VPS Security", "E-commerce Architecture"]
+    },
+    {
+      name: "AI Business Assistant SaaS",
+      description: "Created intelligent conversational AI platform designed to provide entrepreneurs and businesses with expert-level marketing, sales, and strategy guidance without requiring prompt engineering expertise. The system features pre-trained models with persistent business context through detailed onboarding questionnaires and ongoing data collection. Integrated custom WordPress plugin with OpenAI and Anthropic APIs, MySQL database for context management, and token usage monitoring to prevent overuse. Successfully improved AI response relevance by 70% compared to generic ChatGPT interactions and enhanced user satisfaction through intuitive, business-focused interface.",
+      technologies: ["WordPress", "OpenAI API", "Anthropic API", "MySQL", "Custom Plugin Development", "SaaS Architecture"]
     },
     {
       name: "SEO-Driven Marketing Site",
-      description: "Developed scalable marketing website with localized landing pages across U.S. cities, achieving 56% reduction in user acquisition cost",
-      technologies: ["WordPress", "SEO Optimization", "Localized Content", "Performance Tuning"]
-    },
-    {
-      name: "Custom Elementor Widgets",
-      description: "Created interactive custom widgets using GSAP animations for Wishpond's no-code builder, improving landing page conversions by 30%",
-      technologies: ["HTML", "CSS", "JavaScript", "GSAP", "Elementor Pro", "Custom Development"]
-    },
-    {
-      name: "Agency Workflow Optimization",
-      description: "Led transition from template-based to custom WordPress solutions at Brandeb Agency, implementing QA processes and team training programs",
-      technologies: ["WordPress", "Custom Development", "Process Optimization", "Team Management"]
+      description: "Developed scalable marketing website using WordPress + Elementor Pro with localized landing pages across multiple U.S. cities and ZIP codes to expand market reach. Implemented comprehensive SEO strategy with location-specific content, optimized page speed, and conversion-focused design elements. The platform successfully achieved 56% reduction in user acquisition cost, improved local search rankings across target markets, and generated 200% increase in qualified leads through strategic content localization and performance optimization.",
+      technologies: ["WordPress", "Elementor Pro", "SEO Optimization", "Localized Content", "Performance Tuning"]
     }
   ],
   
   availability: {
     timezone: "Available 9:00 AM - 5:00 PM Central Time",
-    workType: "Remote",
+    workType: "Remote (experienced in client communication and video conferencing)",
     connection: "Stable high-speed internet connection"
   }
 };

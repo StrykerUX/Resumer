@@ -49,7 +49,7 @@ const CVTemplate = ({ data }) => {
         <div className="skills-category">
           <h4 className="skills-subtitle">Professional Competencies</h4>
           <div className="skills-list">
-            {data.coreSkills.soft.map((skill, index) => (
+            {data.coreSkills.competencies.map((skill, index) => (
               <div key={index} className="skill-item">{skill}</div>
             ))}
           </div>

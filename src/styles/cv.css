@@ -425,7 +425,7 @@ h1, h2, h3, h4, h5, h6,
 }
 
 .project-content {
-  padding-top: var(--spacing-xs);
+  /* padding-top removed for better visual alignment */
 }
 
 .project-description {
