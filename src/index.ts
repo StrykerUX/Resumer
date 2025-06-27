@@ -3,6 +3,10 @@ import cors from 'cors';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
 import { PrismaClient } from '@prisma/client';
+import authRoutes from './routes/auth';
+import profileRoutes from './routes/profile';
+import cvRoutes from './routes/cv';
+import generateRoutes from './routes/generate';
 
 // Load environment variables
 dotenv.config();
@@ -102,20 +106,11 @@ app.get('/api', (req, res) => {
   });
 });
 
-// Basic Auth Routes (Temporary placeholders)
-app.post('/api/auth/register', (req, res) => {
-  res.status(501).json({
-    message: 'Registration endpoint - Implementation in progress',
-    note: 'This endpoint will be available in the next update',
-  });
-});
-
-app.post('/api/auth/login', (req, res) => {
-  res.status(501).json({
-    message: 'Login endpoint - Implementation in progress',
-    note: 'This endpoint will be available in the next update',
-  });
-});
+// API Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/profile', profileRoutes);
+app.use('/api/cv', cvRoutes);
+app.use('/api/generate', generateRoutes);
 
 // Test endpoint for Coolify deployment
 app.get('/api/test', (req, res) => {
@@ -129,21 +124,6 @@ app.get('/api/test', (req, res) => {
   });
 });
 
-// Upload Routes Placeholder
-app.post('/api/upload', (req, res) => {
-  res.status(501).json({
-    message: 'File upload endpoint - Implementation in progress',
-    note: 'This endpoint will be available in the next update',
-  });
-});
-
-// Generate Routes Placeholder
-app.post('/api/generate', (req, res) => {
-  res.status(501).json({
-    message: 'CV generation endpoint - Implementation in progress',
-    note: 'This endpoint will be available in the next update',
-  });
-});
 
 // 404 Handler
 app.use('*', (req, res) => {
@@ -157,8 +137,17 @@ app.use('*', (req, res) => {
       'GET /api/test',
       'POST /api/auth/register',
       'POST /api/auth/login',
-      'POST /api/upload',
-      'POST /api/generate',
+      'GET /api/auth/me',
+      'POST /api/profile/basic-data',
+      'GET /api/profile/basic-data',
+      'POST /api/cv/upload',
+      'GET /api/cv/parsed-data',
+      'GET /api/cv/recommendations',
+      'GET /api/cv/preview',
+      'GET /api/cv/download',
+      'POST /api/generate/analyze-job',
+      'POST /api/generate/adapt-cv',
+      'GET /api/generate',
     ],
   });
 });
