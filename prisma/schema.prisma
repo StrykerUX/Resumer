@@ -1,0 +1,108 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  passwordHash String @map("password_hash")
+  credits   Int      @default(3)
+  plan      String   @default("free")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  
+  // Relations
+  cvs         CV[]
+  generations Generation[]
+  
+  @@map("users")
+}
+
+model CV {
+  id               String   @id @default(uuid())
+  userId           String   @map("user_id")
+  originalFilename String?  @map("original_filename")
+  fileUrl          String?  @map("file_url")
+  parsedData       Json?    @map("parsed_data")
+  createdAt        DateTime @default(now()) @map("created_at")
+  
+  // Relations
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  generations Generation[]
+  
+  @@map("cvs")
+}
+
+model Template {
+  id              String   @id @default(uuid())
+  name            String
+  description     String?
+  previewImageUrl String?  @map("preview_image_url")
+  structure       Json
+  styles          Json
+  isActive        Boolean  @default(true) @map("is_active")
+  createdAt       DateTime @default(now()) @map("created_at")
+  
+  // Relations
+  generations Generation[]
+  
+  @@map("templates")
+}
+
+model Generation {
+  id             String    @id @default(uuid())
+  userId         String    @map("user_id")
+  cvId           String    @map("cv_id")
+  templateId     String?   @map("template_id")
+  jobDescription String    @map("job_description")
+  optimizedData  Json?     @map("optimized_data")
+  resultPdfUrl   String?   @map("result_pdf_url")
+  creditsUsed    Int       @default(1) @map("credits_used")
+  status         String    @default("pending") // pending, processing, completed, failed
+  createdAt      DateTime  @default(now()) @map("created_at")
+  completedAt    DateTime? @map("completed_at")
+  
+  // Relations
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  cv       CV        @relation(fields: [cvId], references: [id], onDelete: Cascade)
+  template Template? @relation(fields: [templateId], references: [id])
+  
+  @@map("generations")
+}
+
+model JobQueue {
+  id           String    @id @default(uuid())
+  type         String    // 'parse_cv', 'generate_pdf', 'ai_optimization'
+  data         Json
+  status       String    @default("waiting") // waiting, processing, completed, failed
+  attempts     Int       @default(0)
+  maxAttempts  Int       @default(3) @map("max_attempts")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  processedAt  DateTime? @map("processed_at")
+  failedAt     DateTime? @map("failed_at")
+  errorMessage String?   @map("error_message")
+  
+  @@map("job_queue")
+}
+
+model Payment {
+  id               String   @id @default(uuid())
+  userId           String   @map("user_id")
+  stripeSessionId  String   @unique @map("stripe_session_id")
+  amount           Float
+  currency         String   @default("usd")
+  creditsGranted   Int      @map("credits_granted")
+  status           String   // pending, completed, failed
+  createdAt        DateTime @default(now()) @map("created_at")
+  completedAt      DateTime? @map("completed_at")
+  
+  @@map("payments")
+}
