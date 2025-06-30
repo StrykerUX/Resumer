@@ -13,6 +13,7 @@ datasource db {
 model User {
   id        String   @id @default(uuid())
   email     String   @unique
+  name      String?
   passwordHash String @map("password_hash")
   credits   Int      @default(3)
   plan      String   @default("free")
@@ -105,4 +106,18 @@ model Payment {
   completedAt      DateTime? @map("completed_at")
   
   @@map("payments")
+}
+
+model SecurityLog {
+  id        String   @id @default(uuid())
+  event     String   // LOGIN_SUCCESS, LOGIN_FAILURE, etc.
+  userId    String?  @map("user_id") 
+  email     String?
+  ip        String
+  userAgent String   @map("user_agent")
+  severity  String   // low, medium, high, critical
+  details   Json?
+  createdAt DateTime @default(now()) @map("created_at")
+  
+  @@map("security_logs")
 }

@@ -17,6 +17,7 @@
     "db:push": "prisma db push",
     "db:migrate": "prisma migrate dev",
     "db:migrate:prod": "dotenv -e .env.production -- prisma db push",
+    "db:deploy": "prisma db push && prisma generate",
     "db:seed": "tsx src/utils/seed.ts",
     "docker:dev": "docker-compose -f docker-compose.dev.yml up -d",
     "docker:down": "docker-compose -f docker-compose.dev.yml down",
