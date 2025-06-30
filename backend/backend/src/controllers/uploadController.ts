@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import { AuthRequest } from '../middleware/auth';
 import { parsePDF, parseDocx } from '../services/fileParser';
+import { validateFileContent, getFileSizeLimit } from '../middleware/upload';
+import { logFileEvent, SecurityEvent } from '../utils/securityLogger';
 
 const prisma = new PrismaClient();
 
@@ -13,6 +15,65 @@ export const uploadCV = async (req: AuthRequest, res: Response) => {
     if (!file) {
       return res.status(400).json({
         error: 'No file uploaded'
+      });
+    }
+
+    // Get user info for plan-based validation
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { plan: true, credits: true }
+    });
+
+    if (!user) {
+      return res.status(401).json({ error: 'User not found' });
+    }
+
+    // Check file size based on user plan
+    const maxFileSize = getFileSizeLimit(user.plan);
+    if (file.size > maxFileSize) {
+      const maxSizeMB = Math.floor(maxFileSize / (1024 * 1024));
+      
+      // Log file upload failure
+      logFileEvent(SecurityEvent.FILE_UPLOAD_FAILURE, req, userId, file.originalname, file.size, 
+        `File size exceeds limit for ${user.plan} plan`);
+      
+      return res.status(400).json({
+        error: `File size exceeds limit for ${user.plan} plan (${maxSizeMB}MB maximum)`
+      });
+    }
+
+    // Validate file content by magic bytes
+    if (!validateFileContent(file.buffer, file.mimetype)) {
+      // Log suspicious file
+      logFileEvent(SecurityEvent.SUSPICIOUS_FILE, req, userId, file.originalname, file.size, 
+        'File content does not match expected format');
+      
+      return res.status(400).json({
+        error: 'File content does not match expected format. Possible file corruption or spoofing.'
+      });
+    }
+
+    // Basic malware check - scan for suspicious patterns
+    const suspiciousPatterns = [
+      /\x00\x00\x00\x00/g, // NULL bytes (common in malware)
+      /<script/gi,          // Script tags
+      /javascript:/gi,      // JavaScript protocol
+      /vbscript:/gi,        // VBScript protocol
+      /\\x[0-9a-f]{2}/gi    // Hex escape sequences
+    ];
+
+    const fileContent = file.buffer.toString('binary');
+    const hasSuspiciousContent = suspiciousPatterns.some(pattern => 
+      pattern.test(fileContent.substring(0, 1024)) // Check first 1KB
+    );
+
+    if (hasSuspiciousContent) {
+      // Log suspicious file with malware patterns
+      logFileEvent(SecurityEvent.SUSPICIOUS_FILE, req, userId, file.originalname, file.size, 
+        'File contains suspicious patterns that may indicate malware');
+      
+      return res.status(400).json({
+        error: 'File contains suspicious content and cannot be processed'
       });
     }
 

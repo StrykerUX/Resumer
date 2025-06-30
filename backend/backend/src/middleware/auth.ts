@@ -25,7 +25,15 @@ export const authenticateToken = async (
       return res.status(401).json({ error: 'Access token required' });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { userId: string };
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { 
+      userId: string; 
+      type?: string;
+    };
+
+    // Ensure it's an access token
+    if (decoded.type && decoded.type !== 'access') {
+      return res.status(401).json({ error: 'Invalid token type' });
+    }
     
     const user = await prisma.user.findUnique({
       where: { id: decoded.userId },

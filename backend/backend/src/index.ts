@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import dotenv from 'dotenv';
 import path from 'path';
 import { PrismaClient } from '@prisma/client';
+import { apiLimiter } from './middleware/rateLimiting';
 import authRoutes from './routes/auth';
 import profileRoutes from './routes/profile';
 import cvRoutes from './routes/cv';
@@ -44,11 +45,100 @@ const corsOptions = {
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
 };
 
+// HTTPS Enforcement (only in production)
+if (process.env.NODE_ENV === 'production') {
+  app.use((req, res, next) => {
+    // Trust proxy headers from reverse proxy
+    const protocol = req.header('x-forwarded-proto') || req.protocol;
+    
+    if (protocol !== 'https') {
+      return res.redirect(301, `https://${req.header('host')}${req.url}`);
+    }
+    next();
+  });
+}
+
+// Enhanced Security Headers with Helmet
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: [
+        "'self'",
+        "'unsafe-inline'", // Required for React development
+        "'unsafe-eval'",   // Required for React development
+        "https://cdn.jsdelivr.net", // For external libraries
+      ],
+      styleSrc: [
+        "'self'",
+        "'unsafe-inline'", // Required for styled components
+        "https://fonts.googleapis.com",
+      ],
+      fontSrc: [
+        "'self'",
+        "https://fonts.gstatic.com",
+      ],
+      imgSrc: [
+        "'self'",
+        "data:",
+        "https:",
+      ],
+      connectSrc: [
+        "'self'",
+        "https://api.openai.com", // For AI services
+      ],
+      objectSrc: ["'none'"],
+      mediaSrc: ["'self'"],
+      frameSrc: ["'none'"],
+    },
+  },
+  crossOriginEmbedderPolicy: false, // Disable for compatibility
+  hsts: {
+    maxAge: 31536000, // 1 year
+    includeSubDomains: true,
+    preload: true
+  },
+  noSniff: true,
+  frameguard: { action: 'deny' },
+  referrerPolicy: { policy: 'strict-origin-when-cross-origin' }
+}));
+
+// Additional security headers
+app.use((req, res, next) => {
+  // Prevent clickjacking
+  res.setHeader('X-Frame-Options', 'DENY');
+  
+  // Prevent MIME type sniffing
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  
+  // XSS Protection
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  
+  // Referrer Policy
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  
+  // Feature Policy / Permissions Policy
+  res.setHeader('Permissions-Policy', 
+    'camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), speaker=()'
+  );
+  
+  // Prevent caching of sensitive endpoints
+  if (req.path.startsWith('/api/auth') || req.path.startsWith('/api/profile')) {
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+  }
+  
+  next();
+});
+
 // Global Middleware
 app.use(cors(corsOptions));
-app.use(helmet());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// Apply rate limiting to all API routes
+app.use('/api', apiLimiter);
 
 // Health Check Endpoint
 app.get('/health', async (req, res) => {

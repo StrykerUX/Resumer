@@ -4,13 +4,14 @@ import { getRecommendations } from '../controllers/recommendationController';
 import { getPreview, downloadCV } from '../controllers/downloadController';
 import { authenticateToken } from '../middleware/auth';
 import { uploadMiddleware } from '../middleware/upload';
+import { uploadLimiter } from '../middleware/rateLimiting';
 
 const router = Router();
 
 // All CV routes require authentication
 router.use(authenticateToken);
 
-router.post('/upload', uploadMiddleware.single('cv'), uploadCV);
+router.post('/upload', uploadLimiter, uploadMiddleware.single('cv'), uploadCV);
 router.get('/parsed-data', getParsedData);
 router.get('/recommendations', getRecommendations);
 router.get('/preview', getPreview);

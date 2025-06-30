@@ -3,18 +3,23 @@ import { PrismaClient } from '@prisma/client';
 import { AuthRequest } from '../middleware/auth';
 import { analyzeJobOffer, optimizeCV } from '../services/aiService';
 import { deductCredits } from '../middleware/credits';
+import { jobDescriptionSchema, createValidationResponse, sanitizeString } from '../utils/validation';
 
 const prisma = new PrismaClient();
 
 export const analyzeJob = async (req: AuthRequest, res: Response) => {
   try {
-    const { jobDescription } = req.body;
-
-    if (!jobDescription || jobDescription.trim().length < 50) {
-      return res.status(400).json({
-        error: 'Job description is required and must be at least 50 characters long'
-      });
+    // Validate input data with Zod
+    const validationResult = jobDescriptionSchema.safeParse(req.body);
+    
+    if (!validationResult.success) {
+      return res.status(400).json(createValidationResponse(validationResult.error));
     }
+
+    const { jobDescription: rawJobDescription } = validationResult.data;
+    
+    // Sanitize input
+    const jobDescription = sanitizeString(rawJobDescription);
 
     // Analyze the job description
     const analysis = await analyzeJobOffer(jobDescription);
