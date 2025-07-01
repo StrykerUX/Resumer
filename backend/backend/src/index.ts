@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { PrismaClient } from '@prisma/client';
 import { apiLimiter } from './middleware/rateLimiting';
+import { initializeDatabase, testDatabaseConnection } from './utils/database';
 import authRoutes from './routes/auth';
 import profileRoutes from './routes/profile';
 import cvRoutes from './routes/cv';
@@ -279,13 +280,24 @@ app.use((error: any, req: express.Request, res: express.Response, next: express.
   });
 });
 
-// Database Connection Test
+// Database Connection and Initialization
 async function connectDatabase() {
   try {
     await prisma.$connect();
     console.log('✅ Database connected successfully');
+    
+    // Test connection
+    const isConnected = await testDatabaseConnection();
+    if (!isConnected) {
+      throw new Error('Database connection test failed');
+    }
+    
+    // Initialize database with seed data
+    await initializeDatabase();
+    
+    console.log('🎉 Database setup completed successfully');
   } catch (error) {
-    console.error('❌ Database connection failed:', error);
+    console.error('❌ Database setup failed:', error);
     console.log('🔄 Server will continue without database (for testing)');
   }
 }
