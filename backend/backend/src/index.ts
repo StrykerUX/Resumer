@@ -10,6 +10,7 @@ import authRoutes from './routes/auth';
 import profileRoutes from './routes/profile';
 import cvRoutes from './routes/cv';
 import generateRoutes from './routes/generate';
+import debugRoutes from './routes/debug';
 
 // Load environment variables
 dotenv.config();
@@ -219,6 +220,9 @@ app.use('/api/auth', authRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/cv', cvRoutes);
 app.use('/api/generate', generateRoutes);
+
+// Debug routes (solo con autenticación especial)
+app.use('/api/debug', debugRoutes);
 
 // Test endpoint for Coolify deployment
 app.get('/api/test', (req, res) => {
