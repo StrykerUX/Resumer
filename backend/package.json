@@ -19,6 +19,7 @@
     "test": "npm run test-backend && npm run test-frontend",
     "clean": "rm -rf backend/dist frontend/build backend/node_modules frontend/node_modules",
     "fresh-install": "npm run clean && npm run install-all && npm run build",
+    "test:staging": "node scripts/test-staging.js",
     "postinstall": "npm run install-all"
   },
   "repository": {
