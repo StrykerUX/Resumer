@@ -1,32 +1,31 @@
-# Dockerfile para deployment en DokPloy
+# Dockerfile para CV Resumer - DokPloy
 FROM node:18-alpine
 
-# Set working directory
+# Instalar dependencias del sistema
+RUN apk add --no-cache git
+
+# Crear directorio de trabajo
 WORKDIR /app
 
-# Copy package files
+# Copiar package.json del root y backend
 COPY package*.json ./
 COPY backend/package*.json ./backend/
 COPY frontend/package*.json ./frontend/
 
-# Install dependencies
-RUN npm install
-RUN cd backend && npm install
-RUN cd frontend && npm install
+# Instalar dependencias
+RUN npm run install-all
 
-# Copy source code
+# Copiar código fuente
 COPY . .
 
-# Build the application
-RUN npm run build-frontend
-RUN npm run build-backend
+# Construir aplicación
+RUN npm run build
 
-# Expose port
+# Desplegar base de datos
+RUN cd backend && npm run db:deploy
+
+# Exponer puerto
 EXPOSE 3001
 
-# Set environment
-ENV NODE_ENV=production
-ENV PORT=3001
-
-# Start the application
-CMD ["npm", "start"]
+# Comando por defecto - USAR SCRIPT DE PRODUCCIÓN
+CMD ["node", "start-production.js"]
